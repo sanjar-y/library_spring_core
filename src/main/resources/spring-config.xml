@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean name="categoryRepository" class="spring_library_project.repository.CategoryRepository"/>
+    <bean name="profileRepository" class="spring_library_project.repository.ProfileRepository"/>
+    <bean name="scannerService" class="spring_library_project.service.ScannerService"/>
+
+    <bean name="scannerUtil" class="spring_library_project.util.ScannerUtil">
+        <property name="scannerService" ref="scannerService"/>
+    </bean>
+
+    <bean name="categoryService" class="spring_library_project.service.CategoryService">
+        <property name="categoryRepository" ref="categoryRepository"/>
+    </bean>
+
+    <bean name="bookRepository" class="spring_library_project.repository.BookRepository">
+        <property name="categoryRepository" ref="categoryRepository"/>
+    </bean>
+
+    <bean name="bookService" class="spring_library_project.service.BookService">
+        <property name="categoryService" ref="categoryService"/>
+        <property name="categoryRepository" ref="categoryRepository"/>
+        <property name="bookRepository" ref="bookRepository"/>
+    </bean>
+
+    <bean name="authService" class="spring_library_project.service.AuthService">
+        <property name="profileRepository" ref="profileRepository"/>
+        <property name="adminController" ref="adminController"/>
+        <property name="staffController" ref="stuffController"/>
+        <property name="studentController" ref="studentController"/>
+    </bean>
+
+    <bean name="profileService" class="spring_library_project.service.ProfileService">
+        <property name="categoryService" ref="categoryService"/>
+        <property name="profileRepository" ref="profileRepository"/>
+    </bean>
+
+    <bean name="studentBookRepository" class="spring_library_project.repository.StudentBookRepository">
+        <property name="bookRepository" ref="bookRepository"/>
+        <property name="profileRepository" ref="profileRepository"/>
+    </bean>
+
+    <bean name="mainController" class="spring_library_project.controller.MainController">
+        <property name="scannerService" ref="scannerService"/>
+        <property name="authService" ref="authService"/>
+        <property name="bookService" ref="bookService"/>
+        <property name="categoryService" ref="categoryService"/>
+    </bean>
+
+    <bean name="adminController" class="spring_library_project.controller.AdminController">
+        <property name="bookController" ref="bookController"/>
+        <property name="categoryController" ref="categoryController"/>
+        <property name="profileController" ref="profileController"/>
+        <property name="studentProfileController" ref="studentProfileController"/>
+    </bean>
+
+    <bean name="bookController" class="spring_library_project.controller.BookController">
+        <property name="bookService" ref="bookService"/>
+        <property name="scannerService" ref="scannerService"/>
+        <property name="studentBookService" ref="studentBookService"/>
+    </bean>
+
+    <bean name="studentBookService" class="spring_library_project.service.StudentBookService">
+        <property name="bookRepository" ref="bookRepository"/>
+        <property name="studentBookRepository" ref="studentBookRepository"/>
+    </bean>
+    <bean name="categoryController" class="spring_library_project.controller.CategoryController">
+        <property name="scannerService" ref="scannerService"/>
+        <property name="categoryService" ref="categoryService"/>
+    </bean>
+
+    <bean name="profileController" class="spring_library_project.controller.ProfileController">
+        <property name="scannerService" ref="scannerService"/>
+        <property name="profileService" ref="profileService"/>
+    </bean>
+
+    <bean name="stuffController" class="spring_library_project.controller.StaffController">
+        <property name="studentProfileController" ref="studentProfileController"/>
+        <property name="bookController" ref="bookController"/>
+    </bean>
+
+    <bean name="studentController" class="spring_library_project.controller.StudentController">
+        <property name="scannerService" ref="scannerService"/>
+        <property name="studentBookService" ref="studentBookService"/>
+        <property name="bookService" ref="bookService"/>
+    </bean>
+
+    <bean name="studentProfileController" class="spring_library_project.controller.StudentProfileController">
+        <property name="scannerService" ref="scannerService"/>
+        <property name="profileService" ref="profileService"/>
+    </bean>
+</beans>
